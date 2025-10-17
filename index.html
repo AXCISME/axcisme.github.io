@@ -3,145 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aaron</title>
+    <title>Aaron · 液态玻璃</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        *{margin:0;padding:0;box-sizing:border-box;}
+        html,body{
+            height:100%;
+            font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
         }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            color: #e0e0e0;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+        /* ====== 背景：Bing 每日高清图 ====== */
+        .bg{
+            position:fixed;
+            inset:0;
+            z-index:-2;
+            background:#000;
         }
-        
-        .container {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            padding: 60px;
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
-            animation: fadeIn 0.8s ease-out;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .bg img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            display:block;
         }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        /* ====== 液态玻璃卡片 ====== */
+        .glass{
+            position:absolute;
+            inset:50% auto auto 50%;
+            transform:translate(-50%,-50%);
+            width:90%;
+            max-width:520px;
+            padding:50px 40px;
+            border-radius:24px;
+            /* 核心：模糊+半透明+饱和度 */
+            background:rgba(255,255,255,.15);
+            backdrop-filter:blur(20px) saturate(180%);
+            -webkit-backdrop-filter:blur(20px) saturate(180%);
+            border:1px solid rgba(255,255,255,.2);
+            box-shadow:0 20px 40px rgba(0,0,0,.2);
+            overflow:hidden;          /* 光泽伪元素不溢出 */
+            transition:.35s ease;
         }
-        
-        .avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #0ea5e9, #0d9488);
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 48px;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        /* 动态光泽 */
+        .glass::before{
+            content:"";
+            position:absolute;
+            top:-50%;left:-50%;
+            width:200%;height:200%;
+            background:radial-gradient(circle at var(--x,-20%) var(--y,-20%),
+                        rgba(255,255,255,.25) 0%,
+                        rgba(255,255,255,0) 35%);
+            transition:--x .35s,--y .35s;
+            pointer-events:none;
+            animation:shimmer 6s infinite linear;
         }
-        
-        h1 {
-            font-size: 2.5em;
-            color: #f1f5f9;
-            margin-bottom: 10px;
-            font-weight: 700;
+        @keyframes shimmer{
+            0%   {transform:translate(-30%,-30%) rotate(0deg);}
+            100% {transform:translate(-30%,-30%) rotate(360deg);}
         }
-        
-        .tagline {
-            font-size: 1.2em;
-            color: #94a3b8;
-            margin-bottom: 30px;
-            font-weight: 300;
+        /* 微交互 */
+        .glass:hover{
+            transform:translate(-50%,-52%);
+            box-shadow:0 25px 50px rgba(0,0,0,.3);
         }
-        
-        .bio {
-            font-size: 1.1em;
-            color: #cbd5e1;
-            line-height: 1.8;
-            margin-bottom: 40px;
+
+        /* ====== 内容排版 ====== */
+        .avatar{
+            width:100px;height:100px;
+            margin:0 auto 20px;
+            border-radius:50%;
+            background:linear-gradient(135deg,#0ea5e9,#0d9488);
+            display:flex;align-items:center;justify-content:center;
+            color:#fff;font-size:42px;font-weight:700;
+            box-shadow:0 5px 15px rgba(0,0,0,.2);
         }
-        
-        .links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+        h1{font-size:2.2em;color:#fff;margin-bottom:8px;}
+        .tagline{font-size:1.15em;color:rgba(255,255,255,.75);margin-bottom:25px;}
+        .bio{font-size:1em;color:rgba(255,255,255,.85);line-height:1.8;margin-bottom:35px;}
+        .links{display:flex;justify-content:center;gap:15px;flex-wrap:wrap;}
+        .links a{
+            display:inline-block;
+            padding:10px 26px;
+            background:rgba(255,255,255,.2);
+            color:#fff;
+            text-decoration:none;
+            border-radius:30px;
+            border:1px solid rgba(255,255,255,.25);
+            transition:.3s;
         }
-        
-        .link {
-            display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #0ea5e9, #0d9488);
-            color: white;
-            text-decoration: none;
-            border-radius: 30px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        .links a:hover{
+            background:rgba(255,255,255,.3);
+            transform:translateY(-2px);
         }
-        
-        .link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-            background: linear-gradient(135deg, #38bdf8, #14b8a6);
-        }
-        
-        @media (max-width: 600px) {
-            .container {
-                padding: 40px 30px;
-            }
-            
-            h1 {
-                font-size: 2em;
-            }
-            
-            .tagline {
-                font-size: 1.1em;
-            }
-            
-            .bio {
-                font-size: 1em;
-            }
+
+        /* 移动端微调 */
+        @media(max-width:600px){
+            .glass{padding:40px 30px;}
+            h1{font-size:1.8em;}
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="avatar">Aaron</div>
-        <h1></h1>
+    <!-- 背景 -->
+    <div class="bg">
+        <!-- 官方 1920×1080 尺寸，自动每日更新 -->
+        <img id="bingBg" src="https://bing.biturl.top/?resolution=1920&format=image&index=0&mkt=zh-CN" alt="Bing daily">
+    </div>
+
+    <!-- 液态玻璃卡片 -->
+    <div class="glass">
+        <div class="avatar">A</div>
+        <h1>Aaron</h1>
         <p class="tagline">嵌入式开发工程师 | 技术爱好者</p>
         <p class="bio">
-            热爱编程，专注于嵌入式开发。
-            喜欢探索新技术，分享技术心得。
+            热爱编程，专注于嵌入式开发。<br>
+            喜欢探索新技术，分享技术心得。<br>
             相信技术可以改变世界，让生活更美好。
         </p>
         <div class="links">
-            <a href="#" class="link">GitHub</a>
-            <a href="#" class="link">博客</a>
-            <a href="#" class="link">联系我</a>
+            <a href="https://github.com/AXCISME" target="_blank">GitHub</a>
+            <a href="#" target="_blank">博客</a>
+            <a href="mailto:2234906940@qq.com">联系我</a>
         </div>
     </div>
+
+    <!-- 让光泽跟随鼠标（可选） -->
+    <script>
+        const glass=document.querySelector('.glass');
+        glass.addEventListener('mousemove',e=>{
+            const rect=glass.getBoundingClientRect();
+            const x=((e.clientX-rect.left)/rect.width)*100;
+            const y=((e.clientY-rect.top)/rect.height)*100;
+            glass.style.setProperty('--x',x+'%');
+            glass.style.setProperty('--y',y+'%');
+        });
+    </script>
 </body>
 </html>
